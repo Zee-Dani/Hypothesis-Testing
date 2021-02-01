@@ -39,3 +39,95 @@ x
 ```
 
 
+```{r}
+# calculating memory Requirements
+ #if data frame has 1 500 000 rows and 120 columns given that its a numeric data
+= 1500000*120*8bytes/numeric
+=144000000
+=144000000/2^20 bytes/MB
+=1,373.29MB
+=1.34GB
+
+```
+
+```{r}
+y <- data.frame(a=1,b="a")
+# dput is used for restructuring an r object
+dput(y)
+structure(list(a= 1, 
+               b = structure(1L, .Label = "a",class = "factor")),
+          .Names = c("a","b"),row.names = c(NA, -1L),
+          class = "data.frame")
+dput(y,file = "y.R")
+new.y<- dget("y.R")
+
+```
+
+```{r}
+new.y
+```
+
+```{r}
+# dump is for soring multiple r objects
+X <- "fooo"
+Y <- data.frame(a=1,b = "a")
+dump(c("X","Y"), file = "data.R")
+#rm(X,Y)
+#source("data.R")
+
+```
+
+subsetting in R
+```{r}
+x<-c("a","b","c","d","e","f","a")
+
+x[1]
+x[3]
+x[1:4]
+x[x > "a"]
+u <- x > "a"
+u
+```
+Subsetting Lists
+```{r}
+x <-list(foo=1:4, bar= 0.6)
+x[1]
+# second element in  x
+x[[2]]
+
+x$bar
+x[["bar"]]
+x["bar"]
+```
+
+#Subsetting a Matrix
+```{r}
+x<-matrix(1:6,2,3)
+print(x)
+x[1,2] # row 1 column 2
+
+x[2,1] # row 2 column 1
+
+x[1,] #print  row 1
+x[,2] # print column 2
+```
+# retrieving a matrix as a matrix by using drop = FALSE
+```{r}
+
+x<-matrix(1:6,2,3)
+x[1,2]# returns a vector
+
+x[1,2, drop = FALSE]# retirns a  matrix with dimensions
+
+```
+
+# retieving a column  and row  returns a vector except specified otherwise
+```{r}
+x<- matrix(1:6,2,3)
+x[1,] #returns a vector
+
+x[1,,drop = FALSE] # returns a matrix
+
+
+```
+
