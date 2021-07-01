@@ -1,0 +1,75 @@
+---
+title: "Untitled"
+author: "Zidani"
+date: "7/1/2021"
+output: html_document
+---
+
+```{r}
+
+my_data <- PlantGrowth
+my_data
+
+
+
+```
+```{r}
+ #Show a random sample
+set.seed(1234)
+dplyr::sample_n(my_data, 10)
+
+```
+
+```{r}
+# Show the levels
+levels(my_data$group)
+```
+```{r}
+# visualise data
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(my_data, x = "group", y = "weight", 
+          color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("ctrl", "trt1", "trt2"),
+          ylab = "Weight", xlab = "Treatment")
+
+```
+
+
+Computing a one-way ANOVA test
+
+We want to know if there is any significant difference between the average weights of plants in the 3 experimental conditions.
+
+```{r}
+# Compute the analysis of variance
+res.aov <- aov(weight ~ group, data = my_data)
+res.aov
+```
+
+```{r}
+# Summary of the analysis
+summary(res.aov)
+```
+
+Interpreting the result of one-way ANOVA tests
+```{r}
+As the p-value is less than the significance level 0.05, we can conclude that there are significant differences between the groups highlighted with “*" in the model summary.
+```
+
+Multiple pairwise-comparison between the means of groups(This is to determine if the mean difference between specific pairs of group are statistically significant.)
+we are using Tukey multiple pairwise-comparisons
+```{r}
+
+TukeyHSD(res.aov)
+
+```
+diff: difference between means of the two groups
+lwr, upr: the lower and the upper end point of the confidence interval at 95% (default)
+p adj: p-value after adjustment for the multiple comparisons.
+
+Interpreting the Results
+It can be seen from the output, that only the difference between trt2 and trt1 is significant with an adjusted p-value of 0.012.
+```{r}
+
+```
+

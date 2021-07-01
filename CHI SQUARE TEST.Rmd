@@ -1,0 +1,68 @@
+---
+title: "Chi square Test"
+author: "Zidani"
+date: "6/24/2021"
+output: html_document
+---
+The Chi-square test of independence tests whether there is a relationship between two categorical variables. 
+H0: the variables are independent, there is no relationship between the two categorical variables.(Knowing the value of one variable does not help to predict the value of the other variable)
+H1: the variables are dependent, there is a relationship between the two categorical variables. (Knowing the value of one variable helps to predict the value of the other variable)
+
+```{r}
+data <- as.data.frame(iris)
+data
+
+
+```
+```{r}
+The above data set contains only one categorical variable which is  "Species",
+```
+```{r}
+#We will create size (which corresponds to small if the length of the petal is smaller than the median of all flowers, big otherwise:)to be the next categorical varaible
+
+ data$size <- ifelse(data$Sepal.Length < median(data$Sepal.Length),
+  "small", "big"
+)
+
+View(data)
+```
+
+
+
+now create a contingency table of the two variables Species and size with the table() function:
+```{r}
+table(data$Species, data$size)
+
+```
+The contingency table gives the observed number of cases in each subgroup. For instance, there is only one big setosa flower, while there are 49 small setosa flowers in the dataset.
+
+
+```
+Visual representation of the contigency table.
+```
+```{r}
+library(ggplot2)
+
+ggplot(data) +
+  aes(x = Species, fill = size) +
+  geom_bar()
+```
+
+
+```
+Chi square test for if there is a relationship between Species and size
+```
+```{r}
+test <- chisq.test(table(dat$Species, dat$size))
+test
+
+
+```
+```
+SUMMARY OF CHI SQUARE
+
+X-squared = 86.035, df = 2, p-value < 2.2e-16
+```
+CONCLUSION AND INTERPRETATION
+From the output and from we see that the p-value is less than the significance level of 5%., we therefore  reject the null hypothesis,and therefore conclude that there is a significant relationship between the species and the size. (ie the value of one variable helps to predict the value of the other variable.)
+
